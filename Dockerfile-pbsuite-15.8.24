@@ -1,0 +1,53 @@
+###############################################################################
+#
+# Dockerfile for PBSuite software.
+#
+#  PBSuite: a Software for Long-Read Sequencing Data from PacBio
+#  Tool home is here: https://sourceforge.net/p/pb-jelly/wiki/Home/
+#
+##############################################################################
+
+# ###
+#  PBsuite is provided as a Debian package. So we rely on Debian.
+#
+FROM debian:jessie
+
+# ###
+#  Who to blame?
+#
+MAINTAINER Patrick G. Durand pgdurand@ifremer.fr
+
+# Enable Debian to find all PBsuite dependencies
+RUN echo 'deb http://ftp.debian.org/debian/ stretch main contrib non-free' >> /etc/apt/sources.list \
+  && echo 'deb-src http://ftp.debian.org/debian/ stretch main contrib non-free' >> /etc/apt/sources.list
+
+# ###
+#  Update and upgrade Debian according to previous commands.
+#
+RUN apt-get update -y \
+ && apt-get upgrade -y
+
+# ###
+#  Install PBsuite using its Debian package
+#
+RUN apt-get install -y vim pbsuite
+
+# ###
+#  Update PATH, otherwise Jelly Python scripts do not find
+#  Utils, etc.
+#
+ENV SWEETPATH="/usr/lib/python2.7/dist-packages/pbsuite"
+ENV PATH="${PATH}:${SWEETPATH}/jelly:${SWEETPATH}/utils:${SWEETPATH}/honey:${SWEETPATH}/banana"
+
+# ###
+#  Added to enable PBSuite test procedure: package comes with gz samples
+#  but Jelly needs non-gz files
+#
+RUN gunzip < /usr/share/doc/pbjelly/examples/data/reference/lambda.fasta.gz > /usr/share/doc/pbjelly/examples/data/reference/lambda.fasta \ 
+  && gunzip < /usr/share/doc/pbjelly/examples/data/reads/filtered_subreads.fastq.gz > /usr/share/doc/pbjelly/examples/data/reads/filtered_subreads.fastq
+
+# ###
+#  Embed a sample test protocol to test the Docker image
+#
+COPY protocol.xml /tmp/
+

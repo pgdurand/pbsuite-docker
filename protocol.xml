@@ -1,0 +1,9 @@
+<jellyProtocol>
+    <reference>/usr/share/doc/pbjelly/examples/data/reference/lambda.fasta</reference>  
+    <outputDir>/tmp</outputDir>
+    <blasr>--minMatch 8 --minPctIdentity 70 --bestn 1 --nCandidates 20 --maxScore -500 --nproc 4 --noSplitSubreads</blasr>
+    <input baseDir="/usr/share/doc/pbjelly/examples/data/reads/">
+        <job>filtered_subreads.fastq</job>
+    </input>
+</jellyProtocol>
+
