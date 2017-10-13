@@ -23,14 +23,10 @@ RUN echo 'deb http://ftp.debian.org/debian/ stretch main contrib non-free' >> /e
 
 # ###
 #  Update and upgrade Debian according to previous commands.
-#
+#  Then, install PBsuite using its Debian package.
 RUN apt-get update -y \
- && apt-get upgrade -y
-
-# ###
-#  Install PBsuite using its Debian package
-#
-RUN apt-get install -y vim pbsuite
+ && apt-get upgrade -y \
+ && apt-get install -y vim pbsuite
 
 # ###
 #  Update PATH, otherwise Jelly Python scripts do not find
