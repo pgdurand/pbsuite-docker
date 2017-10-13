@@ -22,10 +22,9 @@ RUN echo 'deb http://ftp.debian.org/debian/ stretch main contrib non-free' >> /e
   && echo 'deb-src http://ftp.debian.org/debian/ stretch main contrib non-free' >> /etc/apt/sources.list
 
 # ###
-#  Update and upgrade Debian according to previous commands.
+#  Update Debian according to previous commands.
 #  Then, install PBsuite using its Debian package.
 RUN apt-get update -y \
- && apt-get upgrade -y \
  && apt-get install -y vim pbsuite
 
 # ###
